@@ -3,7 +3,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	
-	<title>Board</title>
+	<title>taskboard</title>
 	<meta name="description" content="">
 	<meta name="author" content="Rich Manalang (@rmanalan)">
 	
@@ -13,24 +13,43 @@
 	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 	<link rel="stylesheet" href="css/style.css?v=2">
 	<link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">
-	<script src="js/libs/modernizr.custom.21497.js"></script></head>
+  <script src="js/libs/modernizr.custom.21497.js"></script></head>
 <body>
 	<div id="container">
 		<header>
-
+      <div id="logo" class="col">
+        <a href="/"><span>taskboard</span></a>
+      </div>
+      <div id="projnav" class="col">
+        <span id="currproj"></span>
+        <div class="navdd">
+          <ul id="listproj" class="hsidden">
+          </ul>
+          <div class="navaction">
+            <a href="#">Create a new project</a>
+          </div>
+        </div>
+      </div>
 		</header>
 
-		<div id="main" role="main">
-
+    <div id="main" role="main">
+      
 		</div>
 
-		<footer>
-
-		</footer>
 	</div>
+
+  <script id="projlist-tmpl" type="text/tmpl">
+    <li>
+      <h4>${name}</h4>
+      <span class="descr">${description}</span>
+    </li>
+  </script>
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 	<script>!window.jQuery && document.write(unescape('%3Cscript src="js/libs/jquery-1.6.1.min.js"%3E%3C/script%3E'))</script>
+	<script src="js/libs/jquery.tmpl.min.js"></script>
+	<script src="js/libs/spine.min.js"></script>
 	<script src="js/plugins.js"></script>
-	<script src="js/script.js"></script></body>
+  <script src="js/script.js"></script>
+</body>
 </html>
