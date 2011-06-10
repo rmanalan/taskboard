@@ -21,12 +21,13 @@
         <a href="/"><span>taskboard</span></a>
       </div>
       <div id="projnav" class="col">
-        <span id="currproj"></span>
-        <div class="navdd">
-          <ul id="listproj" class="hsidden">
+        <span id="currproj" spellcheck="false" contenteditable="false"></span>
+        <button id="projddbutton" class="navddbutton"></button>
+        <div id="projdd" class="navdd">
+          <ul id="listproj">
           </ul>
           <div class="navaction">
-            <a href="#">Create a new project</a>
+            <a href="#" id="addproj">Create a new project</a>
           </div>
         </div>
       </div>
@@ -40,8 +41,10 @@
 
   <script id="projlist-tmpl" type="text/tmpl">
     <li>
-      <h4>${name}</h4>
-      <span class="descr">${description}</span>
+      <a data-id="${id}" href="/#/${id}">
+        <h4>${name}</h4>
+        <span class="descr">${description}</span>
+      </a>
     </li>
   </script>
 

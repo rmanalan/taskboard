@@ -107,6 +107,8 @@ li {
 }
 .navdd {
   position:absolute;
+  opacity:0;
+  visibility:hidden;
   top:43px;
   background:#fff;
   -webkit-box-shadow:rgba(0,0,0,.3) 1px 1px 2px;
@@ -114,11 +116,31 @@ li {
   border-top:0;
   min-width:250px;
 }
+.navddopen {
+  opacity:1;
+  visibility:visible;
+  -webkit-transition:opacity .5s ease;
+  -moz-transition:opacity .5s ease;
+}
+.
 .navdd h4 {
   font-size:18px;
 }
 .navdd li {
   padding:5px 10px;
+}
+.navddbutton {
+  background:url('/images/rightarrow.png') no-repeat;
+  width:8px;
+  height:15px;
+  border:0;
+  -webkit-transform-origin:25% 50%;
+  -webkit-transition:all .2s;
+}
+.navddbuttonopen {
+  -webkit-transform-origin:25% 50%;
+  -webkit-transform:rotate(90deg);
+  -webkit-transition:all .2s;
 }
 .navaction {
   padding:10px;
@@ -140,10 +162,26 @@ li {
 #projnav {
   margin-left:5px;
 }
+#listproj li {
+  cursor:pointer;
+}
+#listproj a{
+  text-decoration:none;
+  color:#555;
+}
 #currproj {
+  padding:0 5px;
   font-weight:bold;
   font-size:22px;
   text-shadow:#fff 1px 1px 0;
+  cursor: text;
+  outline:none;
+}
+.editable:hover {
+  background:#ffc;
+}
+.editmode {
+  background:#ffc;
 }
 
 /* custom end */
