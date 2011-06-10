@@ -1,7 +1,7 @@
 // Projects
 var Project = Spine.Model.setup('Project', ['name', 'description', 'members', 'slug', 'main']);
 Project.extend(Spine.Model.Local);
-
+Project.fetch();
 
 // Drop down button
 var ProjectDDButton = Spine.Controller.create({
@@ -25,6 +25,7 @@ var ProjectDDButton = Spine.Controller.create({
 
 
 // Current project
+var currProj;
 var CurrentProject = Spine.Controller.create({
 	el: $('#currproj'),
 
@@ -37,6 +38,7 @@ var CurrentProject = Spine.Controller.create({
 	},
 
   init: function(){
+    // Create default project if one doesn't exist
     var defaultProj = Project.findByAttribute('main',true);
     if (!defaultProj){
       defaultProj = Project.create({
@@ -94,9 +96,13 @@ var CurrentProject = Spine.Controller.create({
 var Projects = Spine.Controller.create({
 	el: $('#listproj'),
 
+  events: {
+    'click a': 'selectProject'
+  },
+
 	init: function() {
 		Project.bind('refresh change', this.proxy(this.render));
-		Project.fetch();
+    this.render();
 
 		// Create a new project
 		$('#addproj').bind('click', function() {
@@ -110,6 +116,10 @@ var Projects = Spine.Controller.create({
 		});
 
 	},
+
+  selectProject: function(){
+    ProjectDDButton.closeDropdown();
+  },
 
 	template: function(items) {
 		return $("#projlist-tmpl").tmpl(items);
@@ -127,6 +137,47 @@ var Projects = Spine.Controller.create({
 
 }).init();
 
+// Cards
+var CardType = Spine.Model.setup('CardType',['name','type','color','order','project_id']);
+CardType.bind('beforeSave',function(rec){
+  rec.type = rec.name.toSlug();
+  rec.order = this.all().length;
+  rec.project_id = currProj.id;
+});
+CardType.extend(Spine.Model.Local);
+CardType.fetch();
+
+var CardColumns = Spine.Controller.create({
+  el: $('#cards'),
+
+  init: function(){
+    CardType.bind('refresh change', this.proxy(this.render));
+    this.render();
+  },
+
+  template: function(items){
+    return $('#cardcol-tmpl').tmpl(items);
+  },
+
+  sort: function(items){
+    return items.sort(function(a,b){
+      return a.order > b.order;
+    });
+  },
+
+  render: function(){
+    this.el.html(this.template(this.sort(CardType.findAllByAttribute('project_id',currProj.id))));
+  }
+});
+
+var Card = Spine.Model.setup('Card',['title','description','creator','assignee','type','project_id']);
+Card.extend(Spine.Model.Local);
+Card.fetch();
+
+var Cards = Spine.Controller.create({
+});
+
+// Main app
 var App = Spine.Controller.create({
 	init: function() {
 		this.routes({
@@ -135,16 +186,22 @@ var App = Spine.Controller.create({
 				this.navigate('/');
 			},
 
+      // Default project
 			'/': function() {
-				var proj = Project.findByAttribute('main', true);
-				CurrentProject.render(proj);
+				currProj = Project.findByAttribute('main', true);
+				CurrentProject.render(currProj);
+        CardColumns.init();
 			},
 
+      // Project detail
 			'/:id': function(id) {
-				var proj = Project.find(id);
-        if(proj.main) this.navigate('/');
-				CurrentProject.render(proj);
-				ProjectDDButton.closeDropdown();
+				currProj = Project.find(id);
+        if(currProj.main) {
+          this.navigate('/');
+          return;
+        }
+				CurrentProject.render(currProj);
+        CardColumns.init();
 			}
 
 		});
