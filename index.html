@@ -37,7 +37,19 @@
       <div id="cards">
         
       </div>
-		</div>
+    </div>
+
+    <div id="card-editor" class="modal hidden">
+      <div id="card-editor-win">
+        <form id="card-form" action="#save-card" method="post" accept-charset="utf-8">
+          <input type="hidden" name="type" value="">
+          <input type="hidden" name="project_id" value="">
+          <input type="text" name="title" value="" placeholder="Title"><br/>
+          <textarea name="description" rows="8" cols="40" placeholder="Description"></textarea>
+          <p><input type="submit" value="Save"></p>
+        </form>
+      </div>
+    </div>
 
 	</div>
 
@@ -52,16 +64,21 @@
 
   <script id="cardcol-tmpl" type="text/tmpl">
     <div class="cardcol ${type}" data-id="${id}">
-      <h5 class="cardhead"><button class="cardbutton"></button>${name}</h5>
+      <h5 class="cardhead"><button class="cardbutton" data-type="${type}"></button>${name}</h5>
       <ol id="cardcol-${type}"><ol>
     </div>
+  </script>
+  
+  <script id="card-tmpl" type="text/tmpl">
+    <li class="card-${type}" data-type="${type}" data-id="${id}">
+      <h4>${title}</h4>
+      <p>${description}</p>
+    </li>
   </script>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 	<script>!window.jQuery && document.write(unescape('%3Cscript src="js/libs/jquery-1.6.1.min.js"%3E%3C/script%3E'))</script>
-	<script src="js/libs/jquery.tmpl.min.js"></script>
-	<script src="js/libs/spine.min.js"></script>
-	<script src="js/plugins.js"></script>
-  <script src="js/script.js"></script>
+	<script src="js/libs/script.min.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
